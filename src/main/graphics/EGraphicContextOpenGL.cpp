@@ -12,6 +12,8 @@
 #include "EImageBuffer.h"
 #include "EGraphicCmdBuffer.h"
 
+#include "EColor4Editor.h"
+
 #ifdef __APPLE__
 #include "GLee/GLee.h"
 
@@ -209,29 +211,29 @@ void EGraphicContextOpenGL::drawGeometryBuffer(const EGeometryBuffer& _geometry_
 
     // Texture Factor
     if(_geometry_buffer.hasFormat(EGeometryBuffer::E_TFACTOR)) {
-        const int* color4 = _geometry_buffer.getTFactorAsRGBA();
+        EColor4Editor color4Editor(_geometry_buffer.getTFactorAsRGBA());
 
 #ifdef __ANDROID_API__
         glColor4f(
-            float(color4[0]) / float(255),
-            float(color4[1]) / float(255),
-            float(color4[2]) / float(255),
-            color4[3] == -1? 1.0f : float(color4[3]) / float(255));
+            color4Editor.getClampR(),
+            color4Editor.getClampG(),
+            color4Editor.getClampB(),
+            color4Editor.hasAlpha()?color4Editor.getClampA():1.0f);
 #else
         glColor3f(
-            float(color4[0]) / float(255),
-            float(color4[1]) / float(255),
-            float(color4[2]) / float(255));
+            color4Editor.getClampR(),
+            color4Editor.getClampG(),
+            color4Editor.getClampB());
 #endif
 
-        if(color4[3] != -1) {
+        if(color4Editor.hasAlpha()) {
             enabled_alpha_blending = true;
 
             glEnable(GL_BLEND);
 #ifdef __ANDROID_API__
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 #else
-            glBlendColor(1.f, 1.f, 1.f, float(color4[3]) / float(255));
+            glBlendColor(1.f, 1.f, 1.f, color4Editor.getClampA());
             glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
 #endif
 
@@ -334,25 +336,27 @@ void EGraphicContextOpenGL::setGraphicCmdBuffer(const EGraphicCmdBuffer& _graphi
                 glEnable(GL_LIGHTING);
                 glEnable(gl_light_index);
 
-                // set direction
+                // set direction as GL_POSITION
                 light_values[0] = dir[0];
                 light_values[1] = dir[1];
                 light_values[2] = dir[2];
                 light_values[3] = 0.f;
                 glLightfv(gl_light_index, GL_POSITION, light_values);
 
-                // set ambient
-                light_values[0] = float(ambient[0]) / float(255);
-                light_values[1] = float(ambient[1]) / float(255);
-                light_values[2] = float(ambient[2]) / float(255);
-                light_values[3] = float(ambient[3]) / float(255);
+                // set ambient and diffuse color
+                EColor4Editor ambientEditor(ambient);
+                EColor4Editor diffuseEditor(diffuse);
+
+                light_values[0] = ambientEditor.getClampR();
+                light_values[1] = ambientEditor.getClampG();
+                light_values[2] = ambientEditor.getClampB();
+                light_values[3] = ambientEditor.getClampA();
                 glLightfv(gl_light_index, GL_AMBIENT, light_values);
 
-                // set diffuse
-                light_values[0] = float(diffuse[0]) / float(255);
-                light_values[1] = float(diffuse[1]) / float(255);
-                light_values[2] = float(diffuse[2]) / float(255);
-                light_values[3] = float(diffuse[3]) / float(255);
+                light_values[0] = diffuseEditor.getClampR();
+                light_values[1] = diffuseEditor.getClampG();
+                light_values[2] = diffuseEditor.getClampB();
+                light_values[3] = diffuseEditor.getClampA();
                 glLightfv(gl_light_index, GL_DIFFUSE, light_values);
             }
             break;

@@ -8,7 +8,7 @@
 
 #include <cute_end.h>
 
-#include "../main/modules/EStringUtil.h"
+#include "../main/modules/third_party/EStringUtil.h"
 
 using namespace end2;
 

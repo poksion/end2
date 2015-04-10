@@ -9,7 +9,7 @@
 #ifndef _ELOG_MODULE_H__
 #define _ELOG_MODULE_H__
 
-#include "EStringUtil.h"
+#include "third_party/EStringUtil.h"
 
 #define ELOG end2::ESystem::getSystem().getModule<end2::ELogModule>()->log
 #define ELOG_SAFE if(end2::ESystem::getSystem().getModule<end2::ELogModule>()) end2::ESystem::getSystem().getModule<end2::ELogModule>()->log

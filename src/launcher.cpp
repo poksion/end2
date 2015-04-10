@@ -23,9 +23,9 @@ void setupTestConfiguration(int argc, char** argv){
     // 1. Current graphic test (a.k.a gt_)
     GRAPHIC_TEST = true;
     filteredUnitTestSuite = 0;
-    //graphicTest = CuteSuite::get_graphic_suite()["gt_glut"];
-    //graphicTest = CuteSuite::get_graphic_suite()["gt_nehe05_3dshapes"];
-    graphicTest = CuteSuite::get_graphic_suite()["gt_geometrybuffer"];
+    //graphicTest = CuteSuite::get_graphic_suite()["gtest_glut"];
+    //graphicTest = CuteSuite::get_graphic_suite()["gtest_nehe05_3dshapes"];
+    graphicTest = CuteSuite::get_graphic_suite()["gtest_geometrybuffer"];
 
     // 2. All unit tests
 //    GRAPHIC_TEST = false;

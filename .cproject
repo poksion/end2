@@ -30,7 +30,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug.1748756814" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.36215563" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/end2/src/test/cute}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/end2/src/main/modules/third_party/physics/bullet}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.815147829" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -40,7 +39,6 @@
 								<option id="gnu.cpp.compiler.macosx.exe.debug.option.debugging.level.82421999" name="Debug Level" superClass="gnu.cpp.compiler.macosx.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.323914980" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/end2/src/test/cute}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/end2/src/main/modules/third_party/physics/bullet}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.1025541027" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 --std=c++11" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.411374588" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -50,7 +48,6 @@
 								<option id="gnu.c.compiler.macosx.exe.debug.option.debugging.level.287757697" name="Debug Level" superClass="gnu.c.compiler.macosx.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1236717080" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/end2/src/test/cute}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/end2/src/main/modules/third_party/physics/bullet}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1578785173" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
