@@ -34,7 +34,7 @@ void setupTestConfiguration(int argc, char** argv){
             filteredUnitTestSuite = new cute::suite();
             cute::suite& suite = CuteSuite::get_suite();
             for(auto itr = suite.begin(); itr != suite.end(); ++itr){
-                if(itr->name() == base_name){
+                if(itr->name().find(base_name) == 0){
                     filteredUnitTestSuite->push_back(*itr);
                 }
             }
