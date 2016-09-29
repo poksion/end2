@@ -20,29 +20,40 @@ static cute::suite* filteredUnitTestSuite;
 
 void setupTestConfiguration(int argc, char** argv){
 
-    // 1. Current graphic test (a.k.a gt_)
-    GRAPHIC_TEST = true;
+    graphicTest = 0;
     filteredUnitTestSuite = 0;
-    //graphicTest = CuteSuite::get_graphic_suite()["gtest_glut"];
-    //graphicTest = CuteSuite::get_graphic_suite()["gtest_nehe05_3dshapes"];
-    graphicTest = CuteSuite::get_graphic_suite()["gtest_geometrybuffer"];
 
-    // 2. All unit tests
-//    GRAPHIC_TEST = false;
-//    graphicTest = 0;
-//    filteredUnitTestSuite = 0;
+    if (argc == 2 && argv[1] != 0) {
+        std::string base_name(argv[1]);
+        if (base_name.find(".cpp") != std::string::npos) {
+            base_name.erase(base_name.length()-4);
+        }
+        if (base_name.find("gtest_") == 0) {
+            graphicTest = CuteSuite::get_graphic_suite()[base_name];
+        } else {
+            filteredUnitTestSuite = new cute::suite();
+            cute::suite& suite = CuteSuite::get_suite();
+            for(auto itr = suite.begin(); itr != suite.end(); ++itr){
+                if(itr->name() == base_name){
+                    filteredUnitTestSuite->push_back(*itr);
+                }
+            }
+            if (filteredUnitTestSuite->empty()) {
+                delete filteredUnitTestSuite;
+                filteredUnitTestSuite = 0;
+            }
+        }
+    }
 
-    // 3. Filtered unit tests
-//    GRAPHIC_TEST = false;
-//    graphicTest = 0;
-//    filteredUnitTestSuite = new cute::suite();
-//    cute::suite& suite = CuteSuite::get_suite();
-//    for(auto itr = suite.begin(); itr != suite.end(); ++itr){
-//        if(itr->name() == "test_matrix"){
-//            filteredUnitTestSuite->push_back(*itr);
-//        }
-//    }
-
+    GRAPHIC_TEST = false;
+    if (filteredUnitTestSuite == 0) {
+        GRAPHIC_TEST = true;
+        if (graphicTest == 0) {
+            graphicTest = CuteSuite::get_graphic_suite()["gtest_geometrybuffer"];
+            //graphicTest = CuteSuite::get_graphic_suite()["gtest_glut"];
+            //graphicTest = CuteSuite::get_graphic_suite()["gtest_nehe05_3dshapes"];
+        }
+    }
 }
 
 class GraphicContextOpenGLDelegate : public end2::EGraphicContextOpenGL::Delegate {
