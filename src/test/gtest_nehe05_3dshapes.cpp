@@ -1,10 +1,6 @@
-#ifndef _MSC_VER
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
 #include <cute_end.h>
+
+#include "../main/graphics/EGLHeaderWrapper.h"
 
 class gtest_nehe05_3dshapes: public CuteGraphicTest {
 

@@ -1,11 +1,8 @@
 #include <cute_end.h>
 
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include <GLUT/glut.h>
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-
+#include "main/graphics/EGLHeaderWrapper.h"
 #include "main/graphics/EGraphicContextOpenGL.h"
+
 #include "main/modules/ELogModule.h"
 #include "main/modules/EMouseModule.h"
 #include "main/modules/EKeyboardModule.h"

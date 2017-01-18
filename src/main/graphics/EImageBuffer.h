@@ -9,7 +9,7 @@
 #ifndef _EIMAGE_BUFFER_H__
 #define _EIMAGE_BUFFER_H__
 
-#include <stdlib.h>
+#include <string.h>
 
 namespace end2 {
 

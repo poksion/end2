@@ -14,20 +14,7 @@
 
 #include "EColor4Editor.h"
 
-#ifdef __APPLE__
-#include "GLee/GLee.h"
-
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-
-// for gluBuild2DMipmaps
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-
-#endif // __APPLE__
-
-#ifdef __ANDROID_API__
-#include <GLES/gl.h>
-#endif
+#include "EGLHeaderWrapper.h"
 
 namespace end2 {
 
@@ -70,11 +57,6 @@ EGraphicContextOpenGL::~EGraphicContextOpenGL() {
 }
 
 void EGraphicContextOpenGL::init() {
-
-#ifndef __ANDROID_API__
-      // init GLee for extentions
-      GLeeInit();
-#endif
 
       // default depth test
       glDepthFunc(GL_LESS);
@@ -291,12 +273,13 @@ void EGraphicContextOpenGL::drawGeometryBuffer(const EGeometryBuffer& _geometry_
             //glDrawRangeElements(eDrawType, 0, indices_count - 1, indices_count, eIndexType, ib);
             glDrawElements(eDrawType, indices_count, eIndexType, ib);
         } else {
-            size_t i_start, i_count, i_end;
+            size_t i_start, i_count;
+            //size_t i_end;
             const void* i_start_ptr;
             for(EIndexBufferGroups::const_iterator itr = ibuffer_groups.begin(); itr != ibuffer_groups.end(); ++itr) {
                 i_start = itr->first;
                 i_count = itr->second;
-                i_end = i_count + i_start - 1;
+                //i_end = i_count + i_start - 1;
                 i_start_ptr = (const void*)((const char*) ib + ioffset_size * i_start);
                 //glDrawRangeElements(eDrawType, i_start, i_end, i_count, eIndexType, i_start_ptr);
                 glDrawElements(eDrawType, i_count, eIndexType, i_start_ptr);
@@ -329,7 +312,7 @@ void EGraphicContextOpenGL::setGraphicCmdBuffer(const EGraphicCmdBuffer& _graphi
             int diffuse[4];
             EGraphicCmdBuffer::seekCmdLightActivateAsDirectional(itr, light_index, dir, ambient, diffuse);
 
-            if(light_index < gl_light_indices_.size()) {
+            if(light_index < (int)gl_light_indices_.size()) {
                 unsigned int gl_light_index = gl_light_indices_[light_index];
                 GLfloat light_values[4];
 
@@ -401,22 +384,18 @@ ETextureHandle EGraphicContextOpenGL::createTexture(const EImageBuffer& _image_b
 #ifdef __ANDROID_API__
         glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
         glTexImage2D(GL_TEXTURE_2D, 0, image_channel_cnt, width, height, 0, image_format, GL_UNSIGNED_BYTE, image_data);
+#elif defined(GL_VERSION_1_4)
+		glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+		glTexImage2D(GL_TEXTURE_2D, 0, image_channel_cnt, width, height, 0, image_format, GL_UNSIGNED_BYTE, image_data);
 #else
-        // make texture with mipmap
-        if(GLEE_VERSION_1_4) {
-            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-            glTexImage2D(GL_TEXTURE_2D, 0, image_channel_cnt, width, height, 0, image_format, GL_UNSIGNED_BYTE, image_data);
-        } else {
-            gluBuild2DMipmaps(GL_TEXTURE_2D, image_channel_cnt, width, height, image_format, GL_UNSIGNED_BYTE, image_data);
-        }
+        gluBuild2DMipmaps(GL_TEXTURE_2D, image_channel_cnt, width, height, image_format, GL_UNSIGNED_BYTE, image_data);
 #endif
     } else {
 #ifdef __ANDROID_API__
         glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
+#elif defined(GL_VERSION_1_4)
+        glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
 #else
-        if(GLEE_VERSION_1_4) {
-            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
-        }
         glTexImage2D(GL_TEXTURE_2D, 0, image_channel_cnt, width, height, 0, image_format, GL_UNSIGNED_BYTE, image_data);
 #endif
     }

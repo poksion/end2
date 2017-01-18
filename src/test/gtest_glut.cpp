@@ -3,10 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include <GLUT/glut.h>
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include "../main/graphics/EGLHeaderWrapper.h"
 
 class gtest_glut : public CuteGraphicTest {
 public:

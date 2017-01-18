@@ -12,9 +12,7 @@
 #ifndef _MSC_VER
 #ifndef __ANDROID_API__
 
-#include <GLUT/glut.h>
-
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include "../graphics/EGLHeaderWrapper.h"
 
 namespace end2 {
 
